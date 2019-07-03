@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -46,7 +48,19 @@ namespace MyShop
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+             //изменили локализацию чтоб правильно валидировал сепаратор для децимал
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("es-AR")),
+                SupportedCultures = new List<CultureInfo>
+                {
+                 new CultureInfo("en-US")
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                  new CultureInfo("en")
+                }
+            });
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
