@@ -61,9 +61,10 @@ namespace MyShop.Areas.Admin.Controllers
         // POST: Admin/Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //удалил Bind всеравно асп через рефлексию сопоставит поля,без него он принимает децимал
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,Description,ImageUri,ColorId,CategoryId,GenderId")] Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
@@ -103,9 +104,10 @@ namespace MyShop.Areas.Admin.Controllers
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //тут тоже удалил Bind нафига его вообще использовала есть же дата анотация
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Description,Price,DiscountPrice,ImageUri,ColorId,CategoryId,GenderId")] Product product)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
             if (id != product.Id)
             {
