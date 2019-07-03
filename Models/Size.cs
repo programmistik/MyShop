@@ -10,6 +10,6 @@ namespace MyShop.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<ProductSizes> AvalableSizes { get; set; }
+        public List<ProductSizes> AvalableSizes { get; set; }
     }
 }

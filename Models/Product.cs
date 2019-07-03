@@ -7,10 +7,7 @@ namespace MyShop.Models
 {
     public class Product
     {
-        public Product()
-        {
-            
-        }
+       
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -26,6 +23,6 @@ namespace MyShop.Models
         public bool Discount { get; set; }
         public decimal DiscountPrice { get; set; }
 
-        public ICollection<ProductSizes> AvalableSizes { get; set; }
+        public List<ProductSizes> AvalableSizes { get; set; }
     }
 }
