@@ -9,7 +9,7 @@ namespace MyShop.ViewModels
     public class ProductSize
     {
         public Product Product { get; set; }
-        public ICollection<Size> ProductSizes { get; set; }
-        public ICollection<Size> SizeOfProduct { get; set; }
+        public List<Size> ProductSizes { get; set; }
+        public List<Size> SizeOfProduct { get; set; }
     }
 }
