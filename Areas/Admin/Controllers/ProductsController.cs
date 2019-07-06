@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MyShop.Extentions;
 using MyShop.Models;
 using MyShop.ViewModels;
 
@@ -86,18 +87,17 @@ namespace MyShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            product.AvalableSizes = _context.ProductSizes.Where(x => x.ProductId == product.Id).ToList();
+            var product = await _context.Products.Include(x => x.AvalableSizes).FirstOrDefaultAsync(x => x.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
-            //product.AvalableSizes = _context.Sizes.Where(ps => ps.ProductId == product.Id).ToList();
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             ViewData["ColorId"] = new SelectList(_context.Colors, "Id", "Name", product.ColorId);
             ViewData["GenderId"] = new SelectList(_context.Genders, "Id", "Name", product.GenderId);
-            ViewData["SizeId"] = new SelectList(_context.Sizes, "Id", "Name");
-            // return View(new ProductSize { Product = product, ProductSizes = _context.Sizes.ToList(), SizeOfProduct = _context.ProductSizes.Include(ps => ps.Size).Where(ps => ps.ProductId == product.Id).Select(ps => ps.Size).ToList() });
+            ViewData["Sizes"] = new MultiSelectList(_context.Sizes, "Id", "Name", product.AvalableSizes.Select(x => x.SizeId));
+
             return View(product);
         }
 
@@ -107,7 +107,7 @@ namespace MyShop.Areas.Admin.Controllers
         //тут тоже удалил Bind нафига его вообще использовала есть же дата анотация
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(int[] Sizes, int id, Product product)
         {
             if (id != product.Id)
             {
@@ -119,6 +119,11 @@ namespace MyShop.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(product);
+
+                    var currentSizes = _context.ProductSizes.Where(x => x.ProductId == id);
+                    var newSizes = Sizes.Select(x => new ProductSizes { ProductId = id, SizeId = x });
+                    _context.UpdateManyToMany(currentSizes, newSizes, x => x.SizeId);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -204,10 +209,6 @@ namespace MyShop.Areas.Admin.Controllers
             product.AvalableSizes.Add(ps);
                 _context.SaveChanges();
 
-            //if (product.AvalableSizes == null)
-            //    product.AvalableSizes = new List<Size>();
-            //product.AvalableSizes.Add(ps);
-            //    //_context.ProductSizes.Add(ps);
            
         }
     }

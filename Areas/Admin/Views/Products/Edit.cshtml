@@ -62,63 +62,27 @@
 
 
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            </div>*@
 
 
         </form>
 
-        @*<form asp-action="CreateSizes">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.Id" />*@
-        <div class="form-group">
-            <label  class="control-label"> Sizes: </label>
-            <select name ="ProductSizes" class="form-control" asp-items="ViewBag.SizeId"></select>
-        </div>
-        <button class="btn btn-lg btn-dark my-2" onclick="jsCreateSizes(@Model.Id)">Create avalable sizes</button>
-
         @*<div class="form-group">
-                <input type="submit" value="CreateSizes" class="btn btn-primary" />
-            </div>*@
+            <label class="control-label"> Sizes: </label>
+            <select name="ProductSizes" class="form-control" asp-items="ViewBag.SizeId"></select>
+        </div>
+        <button class="btn btn-lg btn-dark my-2" onclick="jsCreateSizes(@Model.Id)">Create avalable sizes</button>*@
 
-        @*<p>
-                <a asp-area="Admin" asp-controller="Products" asp-action="CreateSizes">Create avalable sizes</a>
-            </p>*@
+        <div class="form-group">
+            <label class="control-label">Sizes:</label>
+            <select name="ProductSizes" id="sizes" asp-items="ViewBag.Sizes" multiple class="form-control chosen-select"></select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
 
-        @if (Model.AvalableSizes != null)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-
-
-                        <th>
-                            <span>Size</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AvalableSizes)
-                    {
-                        <tr>
-
-                            <td>
-                                <span>
-                                    @item.Size.Name
-
-                                </span>
-                                @*@Html.DisplayFor(modelItem => item.Sizes.Name)*@
-                            </td>
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-
-
-        @* </form>*@
     </div>
 </div>
 
@@ -128,4 +92,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    $("#sizes").chosen();
+</script>
 }
