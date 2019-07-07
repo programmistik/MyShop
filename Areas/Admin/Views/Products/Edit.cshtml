@@ -69,26 +69,8 @@
             </div>
 
 
-            @*<div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>*@
-
-
         </form>
 
-        @*<div class="form-group">
-            <label class="control-label"> Sizes: </label>
-            <select name="ProductSizes" class="form-control" asp-items="ViewBag.SizeId"></select>
-        </div>
-        <button class="btn btn-lg btn-dark my-2" onclick="jsCreateSizes(@Model.Id)">Create avalable sizes</button>*@
-
-        <div class="form-group">
-            <label class="control-label">Sizes:</label>
-            <select name="ProductSizes" id="sizes" asp-items="ViewBag.Sizes" multiple class="form-control chosen-select"></select>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
 
     </div>
 </div>
@@ -99,4 +81,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $("#sizes").chosen();
+    </script>
+
 }
