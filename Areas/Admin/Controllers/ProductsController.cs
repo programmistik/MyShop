@@ -85,8 +85,8 @@ namespace MyShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            product.AvalableSizes = _context.ProductSizes.Where(x => x.ProductId == product.Id).ToList();
+            var product = await _context.Products.Include(x => x.AvalableSizes).FirstOrDefaultAsync(x => x.Id == id);
+
             if (product == null)
             {
                 return NotFound();
