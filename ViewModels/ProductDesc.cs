@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace MyShop.ViewModels
 {
-    public class ProductSize
+    public class ProductDesc
     {
         public Product Product { get; set; }
-        public ICollection<Size> ProductSizes { get; set; }
-        public ICollection<Size> SizeOfProduct { get; set; }
+        public List<Size> ProductSizes { get; set; }
+        public List<Color> ProductColors { get; set; }
+        public List<Category> ProductCategory { get; set; }
     }
 }
